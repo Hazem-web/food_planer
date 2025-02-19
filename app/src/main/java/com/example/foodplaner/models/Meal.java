@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Meal {
+public class Meal implements Displayable{
     @SerializedName("idMeal")
     private String id;
 
@@ -32,8 +32,8 @@ public class Meal {
     @SerializedName("strSource")
     private String source;
 
-    private List<String> ingredients = new ArrayList<>();
-    private List<String> measures = new ArrayList<>();
+    private String ingredients;
+    private String measures;
 
     // Method to dynamically set ingredients and measures
     public void extractIngredientsAndMeasures() {
@@ -43,8 +43,8 @@ public class Meal {
                 String measure = (String) this.getClass().getDeclaredField("strMeasure" + i).get(this);
 
                 if (ingredient != null && !ingredient.isEmpty()) {
-                    ingredients.add(ingredient);
-                    measures.add(measure != null ? measure : "");
+                    ingredients+=ingredient;
+                    measures+=(measure != null ? measure : "");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -77,6 +77,11 @@ public class Meal {
         return img;
     }
 
+    @Override
+    public String getObjectType() {
+        return "Meal";
+    }
+
     public String getTags() {
         return tags;
     }
@@ -89,11 +94,11 @@ public class Meal {
         return source;
     }
 
-    public List<String> getIngredients() {
+    public String getIngredients() {
         return ingredients;
     }
 
-    public List<String> getMeasures() {
+    public String getMeasures() {
         return measures;
     }
 
@@ -134,11 +139,11 @@ public class Meal {
         this.source = source;
     }
 
-    public void setIngredients(List<String> ingredients) {
+    public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
     }
 
-    public void setMeasures(List<String> measures) {
+    public void setMeasures(String measures) {
         this.measures = measures;
     }
 }

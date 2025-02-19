@@ -11,6 +11,6 @@
         <item name="colorOnSurface">@color/white</item>
         <item name="colorSurfaceContainer">@color/orange</item>
 
-        <item name="fontFamily">@font/poppins_medium</item>
+        <item name="fontFamily">@font/poppins</item>
     </style>
 </resources>

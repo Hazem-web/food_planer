@@ -2,7 +2,8 @@ package com.example.foodplaner.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Ingredient {
+public class Ingredient implements Displayable{
+    private static final String URL="www.themealdb.com/images/ingredients/";
     @SerializedName("idIngredient")
     private String id;
 
@@ -22,6 +23,16 @@ public class Ingredient {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String getImg() {
+        return URL+name+".png";
+    }
+
+    @Override
+    public String getObjectType() {
+        return "Ingredient";
     }
 
     public String getDescription() {

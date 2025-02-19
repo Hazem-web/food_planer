@@ -6,4 +6,7 @@
     <color name="gray">#52616B</color>
     <color name="light_orange">#FD884C</color>
     <color name="light_gray">#80526A6B</color>
+    <color name="white_transparent">#80F0F5F9</color>
+    <color name="white_semi_transparent">#B3F0F5F9</color>
+    <color name="black_semi_transparent">#CC2B2D30</color>
 </resources>

@@ -35,7 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:text="@string/welcome"
-        android:textColor="@color/black"
         android:textFontWeight="700"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +71,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email_input_txt"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="text|textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

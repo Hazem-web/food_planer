@@ -2,7 +2,7 @@ package com.example.foodplaner.models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Category {
+public class Category implements Displayable{
     @SerializedName("idCategory")
     private String id;
 
@@ -26,6 +26,11 @@ public class Category {
 
     public String getImg() {
         return img;
+    }
+
+    @Override
+    public String getObjectType() {
+        return "Category";
     }
 
     public String getDesc() {

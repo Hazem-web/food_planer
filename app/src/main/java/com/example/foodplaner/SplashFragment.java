@@ -38,10 +38,7 @@ public class SplashFragment extends Fragment {
         runnable=new Runnable() {
             @Override
             public void run() {
-                if(getActivity().getSharedPreferences("user",getContext().MODE_PRIVATE)==null)
                     Navigation.findNavController(view).navigate(R.id.action_splashFragment_to_loginFragment);
-                else
-                    Navigation.findNavController(view).navigate(R.id.action_splashFragment_to_homeFragment);
             }
         };
 

@@ -20,5 +20,9 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+    <style name="rounded_left_corners" parent="">
+        <item name="android:bottomLeftRadius">10dp</item>
+        <item name="android:topLeftRadius">10dp</item>
+    </style>
 
 </resources>

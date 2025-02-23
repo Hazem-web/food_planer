@@ -27,4 +27,7 @@
     <string name="favorites">Favorites</string>
     <string name="planned">Planned</string>
     <string name="account_menu">Account</string>
+    <string name="email_not_correct">Please enter a valid Email</string>
+    <string name="valid_password">The password must be at least eight characters, at least one uppercase letter, one lowercase letter and one number:</string>
+    <string name="conf_password_not_equal">The confirm password is different from the password</string>
 </resources>

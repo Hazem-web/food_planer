@@ -1,10 +1,16 @@
 package com.example.foodplaner.models;
 
-import com.google.gson.annotations.SerializedName;
-import java.util.ArrayList;
-import java.util.List;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
+@Entity(tableName = "FAV_MEAL")
 public class Meal implements Displayable{
+    @PrimaryKey
+    @NonNull
     @SerializedName("idMeal")
     private String id;
 
@@ -35,22 +41,8 @@ public class Meal implements Displayable{
     private String ingredients;
     private String measures;
 
-    // Method to dynamically set ingredients and measures
-    public void extractIngredientsAndMeasures() {
-        for (int i = 1; i <= 20; i++) {
-            try {
-                String ingredient = (String) this.getClass().getDeclaredField("strIngredient" + i).get(this);
-                String measure = (String) this.getClass().getDeclaredField("strMeasure" + i).get(this);
-
-                if (ingredient != null && !ingredient.isEmpty()) {
-                    ingredients+=ingredient;
-                    measures+=(measure != null ? measure : "");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    @Ignore
+    private boolean isFav=false;
 
     // Getters
     public String getId() {
@@ -145,6 +137,14 @@ public class Meal implements Displayable{
 
     public void setMeasures(String measures) {
         this.measures = measures;
+    }
+
+    public boolean isFav() {
+        return isFav;
+    }
+
+    public void setFav(boolean fav) {
+        isFav = fav;
     }
 }
 

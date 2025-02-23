@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         hostFragment= (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         if (hostFragment != null) {
             NavController navController=hostFragment.getNavController();
+            NavigationUI.setupWithNavController(navigationView,navController);
             navController.addOnDestinationChangedListener((navController1, navDestination, bundle) -> {
                 if(navDestination.getId()==R.id.splashFragment || navDestination.getId()==R.id.loginFragment || navDestination.getId()==R.id.signupFragment){
                     navigationView.setVisibility(BottomNavigationView.GONE);

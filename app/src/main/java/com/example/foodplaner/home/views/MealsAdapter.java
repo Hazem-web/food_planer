@@ -27,10 +27,10 @@ import java.util.List;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> implements MealView {
-    private Context context;
+    private final Context context;
     private List<Meal> meals;
-    private FirebaseUser currentUser;
-    private MealsPresenter presenter;
+    private final FirebaseUser currentUser;
+    private final MealsPresenter presenter;
     private Disposable btnDisposable;
     private Disposable[] showDisposable;
 
@@ -90,14 +90,14 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
     private void notFavHandle(@NonNull ViewHolder holder, int position, Meal meal) {
         holder.fav.setImageResource(R.drawable.favorite_border);
         holder.fav.setOnClickListener(v -> {
-            presenter.addToFav(meal, position);
+            btnDisposable= presenter.addToFav(meal, position);
         });
     }
 
     private void favHandle(@NonNull ViewHolder holder, int position, Meal meal) {
         holder.fav.setImageResource(R.drawable.favorite);
         holder.fav.setOnClickListener(v -> {
-            presenter.removeFromFav(meal, position);
+            btnDisposable= presenter.removeFromFav(meal, position);
         });
     }
 
@@ -114,14 +114,27 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
 
     @Override
     public void showFav(int position) {
+        dispose();
         meals.get(position).setFav(true);
         notifyItemChanged(position);
     }
 
+    private void dispose() {
+        if (btnDisposable != null) {
+            btnDisposable.dispose();
+        }
+    }
+
     @Override
     public void showNotFav(int position) {
+        dispose();
         meals.get(position).setFav(false);
         notifyItemChanged(position);
+    }
+
+    @Override
+    public void showError(String msg) {
+        pageHandler.handleError(msg);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{

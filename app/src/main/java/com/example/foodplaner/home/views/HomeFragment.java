@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -26,8 +27,6 @@ import com.example.foodplaner.models.Meal;
 import com.example.foodplaner.models.Urls;
 import com.example.foodplaner.models.repository.RepositoryImp;
 import com.example.foodplaner.network.MealsRemoteDataSourceImp;
-import com.google.android.material.carousel.CarouselLayoutManager;
-import com.google.android.material.carousel.HeroCarouselStrategy;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -46,7 +45,7 @@ public class HomeFragment extends Fragment implements HomeView,HomePageHandler {
     private SuggestedMealsAdapter suggestedMealsAdapter;
     private HomePresenter presenter;
     private View myView;
-    private Meal myMeal;
+    private static Meal myMeal=null;
     private FirebaseUser currentUser;
     Disposable catDisposable,suggDisposable,dailyDisposable,favDisposable,btnDisposable;
     public HomeFragment() {
@@ -78,7 +77,12 @@ public class HomeFragment extends Fragment implements HomeView,HomePageHandler {
     }
 
     private void callData() {
-        dailyDisposable= presenter.getDayMeal();
+        if(myMeal==null) {
+            dailyDisposable = presenter.getDayMeal();
+        }
+        else {
+            displayMeal(myMeal);
+        }
         suggDisposable= presenter.getSuggested();
         catDisposable=presenter.getCategories();
     }
@@ -107,13 +111,24 @@ public class HomeFragment extends Fragment implements HomeView,HomePageHandler {
 
     @Override
     public void showDailyMeal(Meal meal) {
-        myMeal=meal;
         dailyDisposable.dispose();
+        displayMeal(meal);
+    }
+
+    private void displayMeal(Meal meal) {
+        myMeal= meal;
         dailyCategory.setText(meal.getCategory());
         Glide.with(myView).load(meal.getImg()).placeholder(R.drawable.splash_img).into(dailyImg);
         Glide.with(myView).load(Urls.FLAGS_URL+CountryParser.getCode(meal.getArea())+".png").into(dailyCountryImg);
         dailyName.setText(meal.getName());
         dailyCountry.setText(meal.getArea());
+        dailyBtn.setOnClickListener(v -> {
+            viewRecipe(myMeal.getId());
+        });
+        userHandle(meal);
+    }
+
+    private void userHandle(Meal meal) {
         if (currentUser!=null) {
             dailyFavImg.setOnClickListener(v -> {
                 if (myMeal.isFav()) {
@@ -173,7 +188,9 @@ public class HomeFragment extends Fragment implements HomeView,HomePageHandler {
 
     @Override
     public void viewRecipe(String id) {
-
+        HomeFragmentDirections.ActionHomeFragmentToMealFragment toMealFragment=
+                HomeFragmentDirections.actionHomeFragmentToMealFragment(id);
+        Navigation.findNavController(myView).navigate(toMealFragment);
     }
 
     @Override

@@ -10,11 +10,12 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/rounded_colored_corners"
+        android:backgroundTint="#1252616B"
         android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/rounded_img"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView

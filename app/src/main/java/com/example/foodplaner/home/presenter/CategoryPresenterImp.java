@@ -23,10 +23,8 @@ public class CategoryPresenterImp implements CategoryPresenter{
         return repository.getCategoryMeals(cat).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mealResponse -> {
-                    Log.i("popop", "getData: "+mealResponse.getMeals().size());
                     view.showData(mealResponse.getMeals(),position);
                 },throwable -> {
-                    Log.i("popop", "error ");
                     throwable.printStackTrace();
                     view.showError(throwable.getMessage());
                 });

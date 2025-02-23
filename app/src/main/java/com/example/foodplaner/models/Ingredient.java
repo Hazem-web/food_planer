@@ -3,7 +3,7 @@ package com.example.foodplaner.models;
 import com.google.gson.annotations.SerializedName;
 
 public class Ingredient implements Displayable{
-    private static final String URL="www.themealdb.com/images/ingredients/";
+    private static final String URL="https://www.themealdb.com/images/ingredients/";
     @SerializedName("idIngredient")
     private String id;
 

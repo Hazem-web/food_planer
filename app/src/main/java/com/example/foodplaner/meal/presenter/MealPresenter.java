@@ -1,0 +1,18 @@
+package com.example.foodplaner.meal.presenter;
+
+import com.example.foodplaner.models.Meal;
+import com.example.foodplaner.models.MealPlanned;
+
+import io.reactivex.rxjava3.disposables.Disposable;
+
+public interface MealPresenter {
+    Disposable showData(String id);
+
+    Disposable addToFav(Meal meal);
+
+    Disposable removeFromFav(Meal meal);
+
+    Disposable addToPlanned(MealPlanned mealPlanned);
+
+    Disposable showFav(String id);
+}

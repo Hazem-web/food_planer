@@ -133,6 +133,11 @@ public class SuggestedMealsAdapter extends RecyclerView.Adapter<SuggestedMealsAd
         notifyItemChanged(position);
     }
 
+    @Override
+    public void showError(String msg) {
+        pageHandler.handleError(msg);
+    }
+
     public void setMeals(List<Meal> meals){
         this.meals=meals;
         showDisposable=new Disposable[meals.size()];

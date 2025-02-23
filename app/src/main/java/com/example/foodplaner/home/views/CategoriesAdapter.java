@@ -23,12 +23,16 @@ import com.example.foodplaner.network.MealsRemoteDataSourceImp;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.disposables.Disposable;
+
 public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> implements CategoryView {
     private Context context;
     private List<Category> categories;
     private MealsAdapter[] adapters;
     private CategoryPresenter presenter;
     private HomePageHandler pageHandler;
+
+    private Disposable[] disposable;
 
     public CategoriesAdapter(Context context, List<Category> categories, HomePageHandler pageHandler) {
         this.context = context;
@@ -53,9 +57,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         Glide.with(context).load(category.getImg()).into(holder.categoryImg);
         if (adapters[position] == null) {
             adapters[position]=new MealsAdapter(context,new ArrayList<>(),pageHandler);
+            disposable[position]=presenter.getData(category.getName(),position);
         }
         holder.mealsRec.setAdapter(adapters[position]);
-        presenter.getData(category.getName(),position);
+
     }
 
     @Override
@@ -66,18 +71,20 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     public void setCategories(List<Category> categories){
         this.categories=categories;
         adapters=new MealsAdapter[categories.size()];
+        disposable=new Disposable[categories.size()];
         notifyDataSetChanged();
     }
 
     @Override
     public void showData(List<Meal> meals, int position) {
         adapters[position].showData(meals);
+        disposable[position].dispose();
         notifyItemChanged(position);
     }
 
     @Override
     public void showError(String error) {
-
+        pageHandler.handleError(error);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{

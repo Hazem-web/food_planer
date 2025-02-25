@@ -112,6 +112,11 @@ public class RepositoryImp implements Repository{
     }
 
     @Override
+    public Single<MealPlanned> getPlannedMealById(String id) {
+        return localDataSource.getPlannedMealById(id);
+    }
+
+    @Override
     public Completable insertPlannedMeal(MealPlanned meal) {
         return localDataSource.insertPlanned(meal);
     }

@@ -22,7 +22,9 @@ public class SuggestedPresenterImp implements SuggestedPresenter{
         return repository.insertFavMeal(meal).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
                     suggestedView.showFav(position);
-                },throwable -> {});
+                },throwable -> {
+                    throwable.printStackTrace();
+                });
     }
 
     @Override
@@ -30,7 +32,9 @@ public class SuggestedPresenterImp implements SuggestedPresenter{
         return repository.deleteFavMeal(meal).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
                     suggestedView.showNotFav(position);
-                },throwable -> {});
+                },throwable -> {
+                    throwable.printStackTrace();
+                });
     }
 
     @Override
@@ -45,7 +49,7 @@ public class SuggestedPresenterImp implements SuggestedPresenter{
                         suggestedView.showFav(position);
                     }
                 },throwable -> {
-
+                    throwable.printStackTrace();
                 });
     }
 }

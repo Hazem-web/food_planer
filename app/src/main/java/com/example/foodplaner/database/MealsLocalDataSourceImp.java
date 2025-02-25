@@ -63,4 +63,9 @@ public class MealsLocalDataSourceImp implements MealsLocalDataSource{
     public Flowable<List<MealPlanned>> getPlannedMealsByDay(Date date) {
         return plannedMealsDAO.getPlannedMealsByDay(date);
     }
+
+    @Override
+    public Single<MealPlanned> getPlannedMealById(String id) {
+        return plannedMealsDAO.getPlannedMealById(id);
+    }
 }

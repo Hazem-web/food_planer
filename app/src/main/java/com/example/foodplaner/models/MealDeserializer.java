@@ -29,6 +29,7 @@ public class MealDeserializer implements JsonDeserializer<Meal> {
             if (jsonObject.has(ingredientKey) && !jsonObject.get(ingredientKey).isJsonNull()) {
                 String ingredient = jsonObject.get(ingredientKey).getAsString().trim();
                 if (!ingredient.isEmpty()) {
+                    ingredient=ingredient.replace(",","and");
                     ingredients+=ingredient+",";
                 }
             }
@@ -36,6 +37,7 @@ public class MealDeserializer implements JsonDeserializer<Meal> {
             if (jsonObject.has(measureKey) && !jsonObject.get(measureKey).isJsonNull()) {
                 String measure = jsonObject.get(measureKey).getAsString().trim();
                 if (!measure.isEmpty()) {
+                    measure=measure.replace(","," and");
                     measures+=measure+",";
                 }
             }

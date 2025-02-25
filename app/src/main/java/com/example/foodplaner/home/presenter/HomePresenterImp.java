@@ -64,7 +64,7 @@ public class HomePresenterImp implements HomePresenter{
                 .subscribe(() -> {
                         homeView.showFavDaily();
                 },throwable -> {
-
+                    throwable.printStackTrace();
                 });
     }
 
@@ -75,7 +75,7 @@ public class HomePresenterImp implements HomePresenter{
                 .subscribe(() -> {
                     homeView.showNotFavDaily();
                 },throwable -> {
-
+                    throwable.printStackTrace();
                 });
     }
 
@@ -90,7 +90,7 @@ public class HomePresenterImp implements HomePresenter{
                     else
                         homeView.showNotFavDaily();
                 },throwable -> {
-
+                    throwable.printStackTrace();
                 });
     }
 }

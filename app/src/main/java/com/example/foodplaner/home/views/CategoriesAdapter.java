@@ -60,6 +60,12 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             disposable[position]=presenter.getData(category.getName(),position);
         }
         holder.mealsRec.setAdapter(adapters[position]);
+        holder.categoryTxt.setOnClickListener(v -> {
+            pageHandler.showCategory(category.getName());
+        });
+        holder.categoryImg.setOnClickListener(v -> {
+            pageHandler.showCategory(category.getName());
+        });
 
     }
 

@@ -14,8 +14,6 @@
     <string name="welcome_desc">Sign Up Or Login Bellow To Add Meal To Favorites And Sync Your Data</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="have_account">Already have an account?</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="categories">Categories</string>
     <string name="countries">Countries</string>
     <string name="view_recipe">View Recipe</string>
@@ -31,4 +29,11 @@
     <string name="valid_password">The password must be at least eight characters, at least one uppercase letter, one lowercase letter and one number:</string>
     <string name="conf_password_not_equal">The confirm password is different from the password</string>
     <string name="video">Video</string>
+    <string name="search_meal">Search for a meal</string>
+    <string name="search_ing">Search for an ingredient</string>
+    <string name="search_cat">Search for a category</string>
+    <string name="search_area">Search for a country</string>
+    <string name="meal">Meals</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

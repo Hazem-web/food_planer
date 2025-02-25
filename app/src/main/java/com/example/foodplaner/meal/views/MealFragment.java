@@ -111,6 +111,7 @@ public class MealFragment extends Fragment implements MealView{
     @Override
     public void showFav() {
         favDispose();
+        myMeal.setFav(true);
         favFAB.setImageResource(R.drawable.favorite);
     }
 
@@ -126,6 +127,7 @@ public class MealFragment extends Fragment implements MealView{
     @Override
     public void showNotFav() {
         favDispose();
+        myMeal.setFav(false);
         favFAB.setImageResource(R.drawable.favorite_border);
     }
 

@@ -29,12 +29,12 @@ public class MealsPresenterImp implements MealsPresenter{
                                .subscribe(() -> {
                                    view.showFav(position);
                                },throwable -> {
-
+                                   throwable.printStackTrace();
                                });
                     }
                 },throwable -> {
                     throwable.printStackTrace();
-
+                    view.showError(throwable.getMessage());
                 });
     }
 
@@ -43,7 +43,9 @@ public class MealsPresenterImp implements MealsPresenter{
         return repository.deleteFavMeal(meal).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(() -> {
                     view.showNotFav(position);
-                },throwable -> {});
+                },throwable -> {
+                    throwable.printStackTrace();
+                });
     }
 
     @Override
@@ -58,7 +60,7 @@ public class MealsPresenterImp implements MealsPresenter{
                         view.showFav(position);
                     }
                 },throwable -> {
-
+                    throwable.printStackTrace();
                 });
     }
 }

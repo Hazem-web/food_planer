@@ -31,6 +31,7 @@ public interface Repository {
     Completable insertFavMeal(Meal meal);
     Completable deleteFavMeal(Meal meal);
     Flowable<List<MealPlanned>> getPlannedMealsByDate(Date date);
+    Single<MealPlanned> getPlannedMealById(String id);
     Completable insertPlannedMeal(MealPlanned meal);
     Completable deletePlannedMeal(MealPlanned meal);
 }

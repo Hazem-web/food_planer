@@ -194,6 +194,13 @@ public class HomeFragment extends Fragment implements HomeView,HomePageHandler {
     }
 
     @Override
+    public void showCategory(String name) {
+        HomeFragmentDirections.ActionHomeFragmentToSearchResultFragment toSearchResultFragment=
+                HomeFragmentDirections.actionHomeFragmentToSearchResultFragment(name,"Category");
+        Navigation.findNavController(myView).navigate(toSearchResultFragment);
+    }
+
+    @Override
     public void handleError(String error) {
 
     }

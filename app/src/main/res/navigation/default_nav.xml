@@ -32,21 +32,21 @@
     </fragment>
     <fragment
         android:id="@+id/calendarFragment"
-        android:name="com.example.foodplaner.CalendarFragment"
+        android:name="com.example.foodplaner.calendar.views.CalendarFragment"
         android:label="fragment_calendar"
         tools:layout="@layout/fragment_calendar" >
-        <action
-            android:id="@+id/action_calendarFragment_to_mealFragment"
-            app:destination="@id/mealFragment" />
         <action
             android:id="@+id/action_calendarFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:popUpTo="@id/calendarFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_calendarFragment_to_localMealFragment"
+            app:destination="@id/localMealFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.foodplaner.SearchFragment"
+        android:name="com.example.foodplaner.search.views.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
@@ -55,15 +55,10 @@
         <action
             android:id="@+id/action_searchFragment_to_searchResultFragment"
             app:destination="@id/searchResultFragment" />
-        <action
-            android:id="@+id/action_searchFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:popUpTo="@id/searchFragment"
-            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/searchResultFragment"
-        android:name="com.example.foodplaner.SearchResultFragment"
+        android:name="com.example.foodplaner.searchresult.views.SearchResultFragment"
         android:label="fragment_search_result"
         tools:layout="@layout/fragment_search_result" >
         <action
@@ -106,6 +101,9 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
@@ -123,16 +121,27 @@
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
-        android:name="com.example.foodplaner.FavoritesFragment"
+        android:name="com.example.foodplaner.favorites.views.FavoritesFragment"
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites" >
-        <action
-            android:id="@+id/action_favoritesFragment_to_mealFragment"
-            app:destination="@id/mealFragment" />
         <action
             android:id="@+id/action_favoritesFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:popUpTo="@id/favoritesFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_favoritesFragment_to_localMealFragment"
+            app:destination="@id/localMealFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/localMealFragment"
+        android:name="com.example.foodplaner.localmeal.views.LocalMealFragment"
+        android:label="LocalMealFragment" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <argument
+            android:name="type"
+            app:argType="string" />
     </fragment>
 </navigation>

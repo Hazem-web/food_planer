@@ -9,6 +9,24 @@ import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "FAV_MEAL")
 public class Meal implements Displayable{
+
+    public Meal() {
+    }
+
+    public Meal(MealPlanned mealPlanned){
+        id=mealPlanned.getId();
+        name=mealPlanned.getName();
+        category=mealPlanned.getCategory();
+        area=mealPlanned.getArea();
+        instructions=mealPlanned.getInstructions();
+        img=mealPlanned.getImg();
+        tags=mealPlanned.getTags();
+        video=mealPlanned.getVideo();
+        ingredients=mealPlanned.getIngredients();
+        measures=mealPlanned.getMeasures();
+        source=mealPlanned.getSource();
+    }
+
     @PrimaryKey
     @NonNull
     @SerializedName("idMeal")

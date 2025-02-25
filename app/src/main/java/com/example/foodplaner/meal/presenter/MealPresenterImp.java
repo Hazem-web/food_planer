@@ -1,5 +1,7 @@
 package com.example.foodplaner.meal.presenter;
 
+import android.util.Log;
+
 import com.example.foodplaner.meal.views.MealView;
 import com.example.foodplaner.models.Meal;
 import com.example.foodplaner.models.MealPlanned;
@@ -69,12 +71,13 @@ public class MealPresenterImp implements MealPresenter{
         return repository.getFavMealById(id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(meal -> {
-                    if (meal == null) {
+                    if (meal != null) {
                         view.showFav();
                     }else {
                         view.showNotFav();
                     }
                 },throwable -> {
+
                     view.showError(throwable.getMessage());
                 });
     }

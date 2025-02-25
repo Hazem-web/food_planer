@@ -20,9 +20,15 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
-    <style name="rounded_left_corners" parent="">
-        <item name="android:bottomLeftRadius">10dp</item>
-        <item name="android:topLeftRadius">10dp</item>
+    <style name="rounded_search" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+        <item name="strokeColor">@color/orange</item>
+    </style>
+    <style name="CalenderViewCustom" parent="Theme.Material3.DayNight">
+        <item name="colorAccent">@color/orange</item>
+        <item name="colorPrimary">@android:color/darker_gray</item>
+        <item name="android:textColorPrimary">@color/black</item>
     </style>
 
 </resources>

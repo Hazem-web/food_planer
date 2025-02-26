@@ -7,176 +7,230 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/sugg_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:textFontWeight="700"
-            android:text="@string/suggestions"
-            android:textColor="@color/orange"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/daily_container" />
-
-        <TextView
-            android:id="@+id/daily_mael_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Our Daily Meal"
-            android:textFontWeight="700"
-            android:textColor="@color/orange"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/sugg_rec"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:isScrollContainer="false"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sugg_txt" />
-
-        <TextView
-            android:id="@+id/cat_home_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:textFontWeight="700"
-            android:text="@string/categories"
-            android:textColor="@color/orange"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sugg_rec" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/cat_rec"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:nestedScrollingEnabled="true"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cat_home_txt" />
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/daily_container"
+            android:id="@+id/no_internet"
             android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:padding="5dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/daily_mael_txt">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/daily_img"
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scaleType="fitXY"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
-                app:shapeAppearanceOverlay="@style/rounded_img"
-                tools:srcCompat="@drawable/splash_img" />
-
-            <TextView
-                android:id="@+id/daily_name_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="2dp"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/light_gray"
-                android:padding="2dp"
-                android:textColor="@color/orange"
-                android:textFontWeight="700"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/daily_btn"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/cat_daily_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/light_gray"
-                android:padding="2dp"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/daily_name_txt" />
-
-            <ImageView
-                android:id="@+id/fav_daily"
-                android:layout_width="40dp"
-                android:layout_height="35dp"
+                android:layout_height="350dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/favorite_border"
-                app:tint="@color/orange" />
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/country_daily_img"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/circle_img" />
-
-            <TextView
-                android:id="@+id/contry_daily_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/rounded_corners"
-                android:backgroundTint="@color/light_gray"
-                android:padding="2dp"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/country_daily_img"
-                app:layout_constraintStart_toEndOf="@+id/country_daily_img"
-                app:layout_constraintTop_toTopOf="@+id/country_daily_img" />
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/animation" />
 
             <Button
-                android:id="@+id/daily_btn"
+                android:id="@+id/reload_btn"
                 android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/rounded_button_corners"
-                android:text="@string/view_recipe"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/reload"
+                app:layout_constraintEnd_toEndOf="@+id/error_txt"
+                app:layout_constraintStart_toStartOf="@+id/error_txt"
+                app:layout_constraintTop_toBottomOf="@id/error_txt" />
 
+            <TextView
+                android:id="@+id/error_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/no_intrenet"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="@+id/animationView"
+                app:layout_constraintStart_toStartOf="@+id/animationView"
+                app:layout_constraintTop_toBottomOf="@id/animationView" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/no_internet">
+
+            <TextView
+                android:id="@+id/sugg_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/suggestions"
+                android:textColor="@color/orange"
+                android:textFontWeight="700"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/daily_container" />
+
+            <TextView
+                android:id="@+id/daily_mael_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="Our Daily Meal"
+                android:textColor="@color/orange"
+                android:textFontWeight="700"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sugg_rec"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:isScrollContainer="false"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sugg_txt" />
+
+            <TextView
+                android:id="@+id/cat_home_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/categories"
+                android:textColor="@color/orange"
+                android:textFontWeight="700"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sugg_rec" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cat_rec"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:nestedScrollingEnabled="true"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cat_home_txt" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/daily_container"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:padding="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/daily_mael_txt">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/daily_img"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:scaleType="fitXY"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:shapeAppearanceOverlay="@style/rounded_img"
+                    tools:srcCompat="@drawable/splash_img" />
+
+                <TextView
+                    android:id="@+id/daily_name_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/rounded_corners"
+                    android:backgroundTint="@color/light_gray"
+                    android:padding="2dp"
+                    android:textColor="@color/orange"
+                    android:textFontWeight="700"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/daily_btn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/cat_daily_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/rounded_corners"
+                    android:backgroundTint="@color/light_gray"
+                    android:padding="2dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/daily_name_txt" />
+
+                <ImageView
+                    android:id="@+id/fav_daily"
+                    android:layout_width="40dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/favorite_border"
+                    app:tint="@color/orange" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/country_daily_img"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/circle_img" />
+
+                <TextView
+                    android:id="@+id/contry_daily_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/rounded_corners"
+                    android:backgroundTint="@color/light_gray"
+                    android:padding="2dp"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="@+id/country_daily_img"
+                    app:layout_constraintStart_toEndOf="@+id/country_daily_img"
+                    app:layout_constraintTop_toTopOf="@+id/country_daily_img" />
+
+                <Button
+                    android:id="@+id/daily_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/rounded_button_corners"
+                    android:text="@string/view_recipe"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

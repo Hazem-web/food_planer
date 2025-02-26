@@ -1,8 +1,9 @@
 package com.example.foodplaner.meal.views;
 
-import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.res.ColorStateList;
+import android.content.DialogInterface;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -67,6 +68,7 @@ public class MealFragment extends Fragment implements MealView{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter=new MealPresenterImp(this, RepositoryImp.getInstance(MealsRemoteDataSourceImp.getInstance(), MealsLocalDataSourceImp.getInstance(getContext())));
     }
 
     @Override
@@ -82,7 +84,6 @@ public class MealFragment extends Fragment implements MealView{
         myView=view;
         String id=MealFragmentArgs.fromBundle(getArguments()).getId();
         initialize();
-        presenter=new MealPresenterImp(this, RepositoryImp.getInstance(MealsRemoteDataSourceImp.getInstance(), MealsLocalDataSourceImp.getInstance(getContext())));
         show=presenter.showData(id);
         back.setOnClickListener(v -> {
             Navigation.findNavController(myView).navigateUp();
@@ -174,8 +175,32 @@ public class MealFragment extends Fragment implements MealView{
             });
             savePlannedMeal();
         }
+        else {
+            favFAB.setOnClickListener(v -> {
+                goLogin();
+            });
+            plan.setOnClickListener(v -> {
+                goLogin();
+            });
+        }
     }
 
+    private void goLogin() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.ask_login);
+        builder.setPositiveButton(R.string.sign_in, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Navigation.findNavController(myView).navigate(R.id.action_mealFragment_to_loginFragment);
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancels the dialog.
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
     private void savePlannedMeal() {
         plan.setOnClickListener(v -> {
             Calendar calendar=Calendar.getInstance();
@@ -234,7 +259,18 @@ public class MealFragment extends Fragment implements MealView{
 
     @Override
     public void showError(String error) {
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.no_intrenet);
+        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Navigation.findNavController(myView).navigateUp();
+            }
+        });
+        builder.setOnDismissListener(dialog -> {
+            Navigation.findNavController(myView).navigateUp();
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override

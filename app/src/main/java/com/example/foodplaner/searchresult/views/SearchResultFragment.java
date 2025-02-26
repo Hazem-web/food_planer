@@ -1,10 +1,12 @@
 package com.example.foodplaner.searchresult.views;
 
-import android.app.appsearch.SearchResult;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +40,8 @@ public class SearchResultFragment extends Fragment implements SearchResultView,S
     private View myView;
     private Disposable show;
     private String type,name;
+    private Button reloadBtn;
+    private ConstraintLayout noInternet;
 
     public SearchResultFragment() {
         // Required empty public constructor
@@ -46,7 +51,7 @@ public class SearchResultFragment extends Fragment implements SearchResultView,S
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        presenter=new SearchResultPresenterImp(this, RepositoryImp.getInstance(MealsRemoteDataSourceImp.getInstance(), MealsLocalDataSourceImp.getInstance(getContext())));
     }
 
     @Override
@@ -62,19 +67,30 @@ public class SearchResultFragment extends Fragment implements SearchResultView,S
         myView=view;
         initialize();
         typeText.setText(name);
-        show=presenter.getData(type,name);
+        reload();
         back.setOnClickListener(v -> {
             Navigation.findNavController(myView).navigateUp();
         });
     }
+
+    private void reload() {
+        recyclerView.setVisibility(View.VISIBLE);
+        noInternet.setVisibility(View.GONE);
+        show=presenter.getData(type,name);
+    }
+
     private void initialize() {
         recyclerView=myView.findViewById(R.id.search_res_rec);
         typeText=myView.findViewById(R.id.search_type_res_txt);
+        noInternet=myView.findViewById(R.id.no_internet);
+        reloadBtn=myView.findViewById(R.id.reload_btn);
         back=myView.findViewById(R.id.back_btn);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         type= SearchResultFragmentArgs.fromBundle(getArguments()).getType();
         name=SearchResultFragmentArgs.fromBundle(getArguments()).getName();
-        presenter=new SearchResultPresenterImp(this, RepositoryImp.getInstance(MealsRemoteDataSourceImp.getInstance(), MealsLocalDataSourceImp.getInstance(getContext())));
+        reloadBtn.setOnClickListener(v -> {
+            reload();
+        });
     }
 
     @Override
@@ -85,13 +101,27 @@ public class SearchResultFragment extends Fragment implements SearchResultView,S
     }
 
     @Override
-    public void notAuthorizedUser(String msg) {
-
+    public void notAuthorizedUser() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.ask_login);
+        builder.setPositiveButton(R.string.sign_in, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Navigation.findNavController(myView).navigate(R.id.action_mealFragment_to_loginFragment);
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancels the dialog.
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
     public void handleError(String error) {
-
+        recyclerView.setVisibility(View.GONE);
+        noInternet.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -102,6 +132,8 @@ public class SearchResultFragment extends Fragment implements SearchResultView,S
 
     @Override
     public void showError(String error) {
+        recyclerView.setVisibility(View.GONE);
+        noInternet.setVisibility(View.VISIBLE);
     }
 
     @Override

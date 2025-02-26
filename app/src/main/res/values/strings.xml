@@ -34,6 +34,16 @@
     <string name="search_cat">Search for a category</string>
     <string name="search_area">Search for a country</string>
     <string name="meal">Meals</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="backup">Backup your data</string>
+    <string name="logout">Logout</string>
+    <string name="sync">Sync your data</string>
+    <string name="reload">Reload</string>
+    <string name="no_intrenet">No internet connection</string>
+    <string name="cancel">Cancel</string>
+    <string name="ask_login">Please Sign in to use this feature</string>
+    <string name="ok">OK</string>
+    <string name="sign_favorite">Please Sign in to see your Favorites Meals</string>
+    <string name="sign_planned">Please Sign in to see your Planned Meals</string>
+    <string name="sign_profile">Please Sign in to see your profile</string>
+
 </resources>

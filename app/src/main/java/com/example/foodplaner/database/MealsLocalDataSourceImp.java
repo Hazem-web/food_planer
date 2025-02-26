@@ -65,7 +65,12 @@ public class MealsLocalDataSourceImp implements MealsLocalDataSource{
     }
 
     @Override
-    public Single<MealPlanned> getPlannedMealById(String id) {
+    public Single<List<MealPlanned>> getPlannedMealById(String id) {
         return plannedMealsDAO.getPlannedMealById(id);
+    }
+
+    @Override
+    public Single<List<MealPlanned>> getPlannedMeals() {
+        return plannedMealsDAO.getPlannedMeals();
     }
 }

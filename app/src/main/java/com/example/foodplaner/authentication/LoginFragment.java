@@ -1,11 +1,16 @@
 package com.example.foodplaner.authentication;
 
+
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.credentials.CredentialManager;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -18,12 +23,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.foodplaner.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+
 
 
 public class LoginFragment extends Fragment {
@@ -32,7 +43,19 @@ public class LoginFragment extends Fragment {
     TextInputLayout emailText,passwordText;
     Button loginBtn,guestBtn,googleBtn;
     TextView signupText;
+    private View myView;
 
+    private  GoogleSignInClient googleSignInClient;
+    private final ActivityResultLauncher<Intent> googleSignInLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == getActivity().RESULT_OK && result.getData() != null) {
+                    handleGoogleSignInResult(result.getData());
+                } else {
+
+                }
+            }
+    );
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -47,15 +70,55 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        myView=view;
         initializeComponent(view);
         guestHandler(view);
         signupNav(view);
         googleBtn.setOnClickListener(v -> {
-
+            googleHandle();
         });
         if(!transferLoggedUser(view)) {
             getAccountInfo(view);
+            getAccountGoogle();
             handleLoginButton(view);
+        }
+    }
+
+    private void handleGoogleSignInResult(Intent data){
+        GoogleSignIn.getSignedInAccountFromIntent(data).addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                String idToken = task.getResult().getIdToken();
+                firebaseAuthWithGoogle(idToken);
+
+            } else {
+            }
+        });
+    }
+    private void googleHandle() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
+
+        // Create the Credential Manager request
+        googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        googleSignInLauncher.launch(signInIntent);
+    }
+
+
+    private void firebaseAuthWithGoogle(String idToken) {
+        if (!idToken.isBlank()){
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(getActivity(), task -> {
+                    if (task.isSuccessful()) {
+
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        saveAccountGoogle(idToken);
+                        transferLoggedUser(myView);
+                    } else {
+                        Toast.makeText(getContext(), "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
         }
     }
 
@@ -127,6 +190,7 @@ public class LoginFragment extends Fragment {
         SharedPreferences sharedPreferences= getActivity().getSharedPreferences(getString(R.string.app_name)+" Preferences",getContext().MODE_PRIVATE);
         String email=sharedPreferences.getString("email","");
         String password=sharedPreferences.getString("password","");
+        loginHandler(email,password,view);
     }
 
     private void saveAccountInfo(String email, String password) {
@@ -136,6 +200,20 @@ public class LoginFragment extends Fragment {
         editor.putString("password", password);
         editor.apply();
     }
+
+    private void saveAccountGoogle(String token) {
+        SharedPreferences sharedPreferences= getActivity().getSharedPreferences(getString(R.string.app_name)+" Preferences",getContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putString("token", token);
+        editor.apply();
+    }
+
+    private void getAccountGoogle() {
+        SharedPreferences sharedPreferences= getActivity().getSharedPreferences(getString(R.string.app_name)+" Preferences",getContext().MODE_PRIVATE);
+        String token=sharedPreferences.getString("token","");
+        firebaseAuthWithGoogle(token);
+    }
+
 
     private void initializeComponent(@NonNull View view) {
         emailText= view.findViewById(R.id.email_txt);

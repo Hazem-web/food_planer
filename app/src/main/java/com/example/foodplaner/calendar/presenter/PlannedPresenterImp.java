@@ -27,7 +27,6 @@ public class PlannedPresenterImp implements PlannedPresenter{
                     view.showData(mealPlanneds);
                 },throwable -> {
                     throwable.printStackTrace();
-                    view.showError(throwable.getMessage());
                 });
     }
 
@@ -38,7 +37,6 @@ public class PlannedPresenterImp implements PlannedPresenter{
                     view.mealRemoved();
                 },throwable -> {
                     throwable.printStackTrace();
-                    view.showError(throwable.getMessage());
                 });
     }
 }

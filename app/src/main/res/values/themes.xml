@@ -13,6 +13,8 @@
 
 
         <item name="fontFamily">@font/poppins</item>
+        <item name="android:windowIsTranslucent">true</item>
+
     </style>
 
     <style name="Theme.FoodPlaner" parent="Base.Theme.FoodPlaner" />

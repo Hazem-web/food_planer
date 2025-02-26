@@ -30,7 +30,6 @@ public class MealsPresenterImp implements MealsPresenter {
                                    view.showFav(position);
                                },throwable -> {
                                    throwable.printStackTrace();
-                                   view.showError(throwable.getMessage());
                                });
                     }
                 },throwable -> {
@@ -46,7 +45,6 @@ public class MealsPresenterImp implements MealsPresenter {
                     view.showNotFav(position);
                 },throwable -> {
                     throwable.printStackTrace();
-                    view.showError(throwable.getMessage());
                 });
     }
 
@@ -63,7 +61,6 @@ public class MealsPresenterImp implements MealsPresenter {
                     }
                 },throwable -> {
                     throwable.printStackTrace();
-                    view.showError(throwable.getMessage());
                 });
     }
 }

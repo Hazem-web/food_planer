@@ -78,6 +78,11 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
             checkFav(holder, position, meal);
 
         }
+        else {
+            holder.fav.setOnClickListener(v -> {
+                pageHandler.notAuthorizedUser();
+            });
+        }
     }
 
     private void checkFav(@NonNull ViewHolder holder, int position, Meal meal) {

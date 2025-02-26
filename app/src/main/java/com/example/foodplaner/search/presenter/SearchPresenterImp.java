@@ -33,7 +33,7 @@ public class SearchPresenterImp implements SearchPresenter{
                         List<Displayable> displayable=areaResponse.getAreas().stream().map(area -> (Displayable) area).collect(Collectors.toList());
                         view.showData(displayable);
                     },throwable -> {
-
+                        view.showError(throwable.getMessage());
                     });
         }
         else if (type.equals("Category")){
@@ -43,7 +43,7 @@ public class SearchPresenterImp implements SearchPresenter{
                         List<Displayable> displayable=categoryResponse.getCategories().stream().map(category -> (Displayable) category).collect(Collectors.toList());
                         view.showData(displayable);
                     },throwable -> {
-
+                        view.showError(throwable.getMessage());
                     });
         }
         else {
@@ -53,7 +53,7 @@ public class SearchPresenterImp implements SearchPresenter{
                         List<Displayable> displayable=ingredientResponse.getIngredients().stream().map(ingredient -> (Displayable) ingredient).collect(Collectors.toList());
                         view.showData(displayable);
                     },throwable -> {
-
+                        view.showError(throwable.getMessage());
                     });
         }
         return output;
@@ -67,7 +67,7 @@ public class SearchPresenterImp implements SearchPresenter{
                     List<Displayable> displayable=mealResponse.getMeals().stream().map(meal -> (Displayable) meal).collect(Collectors.toList());
                     view.showData(displayable);
                 },throwable -> {
-
+                    view.showError(throwable.getMessage());
                 });
     }
 }

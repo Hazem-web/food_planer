@@ -8,8 +8,9 @@ import java.util.Date;
 
 @Entity(tableName = "PLANNED_MEALS")
 public class MealPlanned {
-    @PrimaryKey
-    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    private int meal_num;
+
     private String id;
 
     private String name;
@@ -49,6 +50,22 @@ public class MealPlanned {
         source=meal.getSource();
         ingredients=meal.getIngredients();
         measures=meal.getMeasures();
+    }
+
+    public MealPlanned(int meal_num, String id, String name, String category, String area, String instructions, String img, String tags, String video, String source, String ingredients, String measures, Date date) {
+        this.meal_num = meal_num;
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.area = area;
+        this.instructions = instructions;
+        this.img = img;
+        this.tags = tags;
+        this.video = video;
+        this.source = source;
+        this.ingredients = ingredients;
+        this.measures = measures;
+        this.date = date;
     }
 
     public Date getDate() {
@@ -146,5 +163,13 @@ public class MealPlanned {
 
     public void setMeasures(String measures) {
         this.measures = measures;
+    }
+
+    public int getMeal_num() {
+        return meal_num;
+    }
+
+    public void setMeal_num(int meal_num) {
+        this.meal_num = meal_num;
     }
 }

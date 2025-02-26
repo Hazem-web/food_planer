@@ -4,15 +4,16 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.foodplaner.R;
@@ -38,6 +39,8 @@ public class FavoritesFragment extends Fragment implements FavoritesView,Favorit
     private MealsAdapter adapter;
     private FavoritesPresenter presenter;
     Disposable btnDisposable,showDisposable;
+    private ConstraintLayout content,notAuth;
+    private Button sign;
     public FavoritesFragment() {
         // Required empty public constructor
     }
@@ -45,6 +48,8 @@ public class FavoritesFragment extends Fragment implements FavoritesView,Favorit
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter=new FavoritesPresenterImp(this, RepositoryImp.getInstance(MealsRemoteDataSourceImp.getInstance(), MealsLocalDataSourceImp.getInstance(getContext())));
+
     }
 
     @Override
@@ -60,17 +65,37 @@ public class FavoritesFragment extends Fragment implements FavoritesView,Favorit
         myView=view;
         FirebaseAuth mAuth=FirebaseAuth.getInstance();
         currentUser= mAuth.getCurrentUser();
+        initialize();
         if (currentUser != null) {
-            initialize();
+            handleUser();
+        }
+        else {
+            handleNotUser();
         }
     }
 
+    private void handleNotUser() {
+        content.setVisibility(View.GONE);
+        notAuth.setVisibility(View.VISIBLE);
+        sign.setOnClickListener(v -> {
+            Navigation.findNavController(myView).navigate(R.id.action_favoritesFragment_to_loginFragment);
+        });
+    }
+
     private void initialize() {
+        content=myView.findViewById(R.id.content);
+        notAuth=myView.findViewById(R.id.not_author);
+        sign=myView.findViewById(R.id.sign_error_btn);
         recyclerView=myView.findViewById(R.id.fav_rec);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+
+    }
+
+    private void handleUser() {
+        content.setVisibility(View.VISIBLE);
+        notAuth.setVisibility(View.GONE);
         adapter=new MealsAdapter(getContext(),new ArrayList<>(),this);
         recyclerView.setAdapter(adapter);
-        presenter=new FavoritesPresenterImp(this, RepositoryImp.getInstance(MealsRemoteDataSourceImp.getInstance(), MealsLocalDataSourceImp.getInstance(getContext())));
         showDisposable=presenter.getFav();
     }
 
@@ -107,6 +132,7 @@ public class FavoritesFragment extends Fragment implements FavoritesView,Favorit
     @Override
     public void onStop() {
         super.onStop();
-        showDisposable.dispose();
+        if (showDisposable!=null)
+            showDisposable.dispose();
     }
 }

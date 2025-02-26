@@ -74,7 +74,11 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
                 showDisposable[position].dispose();
             }
             checkFav(holder, position, meal);
-
+        }
+        else {
+            holder.fav.setOnClickListener(v -> {
+                pageHandler.notAuthor();
+            });
         }
     }
 

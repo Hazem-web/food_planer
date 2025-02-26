@@ -12,5 +12,6 @@
         <item name="colorSurfaceContainer">@color/orange</item>
 
         <item name="fontFamily">@font/poppins</item>
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 </resources>

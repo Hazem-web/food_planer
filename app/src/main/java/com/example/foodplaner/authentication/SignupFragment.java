@@ -1,13 +1,25 @@
 package com.example.foodplaner.authentication;
 
+import static com.google.android.libraries.identity.googleid.GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL;
+
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.credentials.Credential;
+import androidx.credentials.CredentialManager;
+import androidx.credentials.CredentialManagerCallback;
+import androidx.credentials.GetCredentialRequest;
+import androidx.credentials.GetCredentialResponse;
+import androidx.credentials.exceptions.GetCredentialException;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.os.CancellationSignal;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +28,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.foodplaner.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption;
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.util.concurrent.Executors;
 
 
 public class SignupFragment extends Fragment {
@@ -30,7 +51,19 @@ public class SignupFragment extends Fragment {
     TextInputLayout emailText,passwordText,confPasswordText;
     Button signupBtn,googleBtn;
     TextView loginText;
+    private CredentialManager credentialManager;
+    private View myView;
+    private GoogleSignInClient googleSignInClient;
+    private final ActivityResultLauncher<Intent> googleSignInLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == getActivity().RESULT_OK && result.getData() != null) {
+                    handleGoogleSignInResult(result.getData());
+                } else {
 
+                }
+            }
+    );
     public SignupFragment() {
         // Required empty public constructor
     }
@@ -46,12 +79,55 @@ public class SignupFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        myView=view;
         initializeComponent(view);
         transferLoggedUser(view);
         handleSignupButton(view);
         handleLoginClick(view);
         googleBtn.setOnClickListener(v -> {
+            googleHandle();
         });
+    }
+    private void handleGoogleSignInResult(Intent data){
+        GoogleSignIn.getSignedInAccountFromIntent(data).addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                String idToken = task.getResult().getIdToken();
+                firebaseAuthWithGoogle(idToken);
+
+            } else {
+            }
+        });
+    }
+    private void googleHandle() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build();
+
+        // Create the Credential Manager request
+        googleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        googleSignInLauncher.launch(signInIntent);
+    }
+
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(getActivity(), task -> {
+                    if (task.isSuccessful()) {
+
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        saveAccountGoogle(idToken);
+                        transferLoggedUser(myView);
+                    } else {
+                        Toast.makeText(getContext(), "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void saveAccountGoogle(String token) {
+        SharedPreferences sharedPreferences= getActivity().getSharedPreferences(getString(R.string.app_name)+" Preferences",getContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putString("token", token);
+        editor.apply();
     }
 
     private void handleLoginClick(@NonNull View view) {
@@ -120,5 +196,6 @@ public class SignupFragment extends Fragment {
         signupBtn= view.findViewById(R.id.signup_btn);
         loginText= view.findViewById(R.id.login_txt);
         mAuth = FirebaseAuth.getInstance();
+        credentialManager = CredentialManager.create(getContext());
     }
 }

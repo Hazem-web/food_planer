@@ -1,5 +1,7 @@
 package com.example.foodplaner.home.views;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -36,10 +38,10 @@ import java.util.List;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class HomeFragment extends Fragment implements HomeView,HomePageHandler {
-    private Button dailyBtn;
+    private Button dailyBtn,reloadBtn;
     private TextView dailyName,dailyCategory,dailyCountry;
     private ImageView dailyImg,dailyCountryImg,dailyFavImg;
-    private ConstraintLayout dailyLayout;
+    private ConstraintLayout content,noInternet;
     private RecyclerView catRec,suggRec;
     private CategoriesAdapter categoriesAdapter;
     private SuggestedMealsAdapter suggestedMealsAdapter;
@@ -55,6 +57,7 @@ public class HomeFragment extends Fragment implements HomeView,HomePageHandler {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter=new HomePresenterImp(this, RepositoryImp.getInstance(MealsRemoteDataSourceImp.getInstance(), MealsLocalDataSourceImp.getInstance(getContext())));
 
     }
 
@@ -71,9 +74,14 @@ public class HomeFragment extends Fragment implements HomeView,HomePageHandler {
         myView=view;
         initializeComponent();
         setupAdapters();
-        presenter=new HomePresenterImp(this, RepositoryImp.getInstance(MealsRemoteDataSourceImp.getInstance(), MealsLocalDataSourceImp.getInstance(getContext())));
-        callData();
+        start();
 
+    }
+
+    private void start() {
+        content.setVisibility(View.VISIBLE);
+        noInternet.setVisibility(View.GONE);
+        callData();
     }
 
     private void callData() {
@@ -95,7 +103,9 @@ public class HomeFragment extends Fragment implements HomeView,HomePageHandler {
     }
 
     private void initializeComponent() {
-        dailyLayout=myView.findViewById(R.id.daily_container);
+        content=myView.findViewById(R.id.content);
+        noInternet=myView.findViewById(R.id.no_internet);
+        reloadBtn=myView.findViewById(R.id.reload_btn);
         dailyBtn=myView.findViewById(R.id.daily_btn);
         dailyCategory=myView.findViewById(R.id.cat_daily_txt);
         dailyCountry=myView.findViewById(R.id.contry_daily_txt);
@@ -107,6 +117,9 @@ public class HomeFragment extends Fragment implements HomeView,HomePageHandler {
         suggRec=myView.findViewById(R.id.sugg_rec);
         FirebaseAuth mAuth=FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        reloadBtn.setOnClickListener(v -> {
+            start();
+        });
     }
 
     @Override
@@ -137,8 +150,30 @@ public class HomeFragment extends Fragment implements HomeView,HomePageHandler {
                     btnDisposable = presenter.addDayToFav(myMeal);
                 }
             });
+
             favDisposable = presenter.showDayFav(meal.getId());
+        }else {
+            dailyFavImg.setOnClickListener(v -> {
+                goLogin();
+            });
         }
+    }
+
+    private void goLogin() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.ask_login);
+        builder.setPositiveButton(R.string.sign_in, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+               Navigation.findNavController(myView).navigate(R.id.action_homeFragment_to_loginFragment);
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancels the dialog.
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
@@ -184,6 +219,8 @@ public class HomeFragment extends Fragment implements HomeView,HomePageHandler {
             suggDisposable.dispose();
             suggDisposable= presenter.getSuggested();
         }
+        content.setVisibility(View.GONE);
+        noInternet.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -191,6 +228,11 @@ public class HomeFragment extends Fragment implements HomeView,HomePageHandler {
         HomeFragmentDirections.ActionHomeFragmentToMealFragment toMealFragment=
                 HomeFragmentDirections.actionHomeFragmentToMealFragment(id);
         Navigation.findNavController(myView).navigate(toMealFragment);
+    }
+
+    @Override
+    public void notAuthor() {
+        goLogin();
     }
 
     @Override
@@ -202,6 +244,7 @@ public class HomeFragment extends Fragment implements HomeView,HomePageHandler {
 
     @Override
     public void handleError(String error) {
-
+        content.setVisibility(View.GONE);
+        noInternet.setVisibility(View.VISIBLE);
     }
 }

@@ -65,6 +65,7 @@ public class HomePresenterImp implements HomePresenter{
                         homeView.showFavDaily();
                 },throwable -> {
                     throwable.printStackTrace();
+
                 });
     }
 
@@ -84,13 +85,14 @@ public class HomePresenterImp implements HomePresenter{
         return repository.getFavMealById(id).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(meal -> {
-                    if(meal==null){
+                    if(meal!=null){
                         homeView.showFavDaily();
                     }
                     else
                         homeView.showNotFavDaily();
                 },throwable -> {
                     throwable.printStackTrace();
+
                 });
     }
 }

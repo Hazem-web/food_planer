@@ -81,7 +81,11 @@ public class SuggestedMealsAdapter extends RecyclerView.Adapter<SuggestedMealsAd
                 showDisposable[position].dispose();
             }
             checkFav(holder, position, meal);
-
+        }
+        else {
+            holder.fav.setOnClickListener(v -> {
+                pageHandler.notAuthor();
+            });
         }
     }
 

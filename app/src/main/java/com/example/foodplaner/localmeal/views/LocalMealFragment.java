@@ -1,6 +1,8 @@
 package com.example.foodplaner.localmeal.views;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -68,6 +70,7 @@ public class LocalMealFragment extends Fragment implements LocalMealView{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter=new LocalMealPresenterImp(this, RepositoryImp.getInstance(MealsRemoteDataSourceImp.getInstance(), MealsLocalDataSourceImp.getInstance(getContext())));
 
     }
 
@@ -85,7 +88,6 @@ public class LocalMealFragment extends Fragment implements LocalMealView{
         String id= LocalMealFragmentArgs.fromBundle(getArguments()).getId();
         String type=LocalMealFragmentArgs.fromBundle(getArguments()).getType();
         initialize();
-        presenter=new LocalMealPresenterImp(this, RepositoryImp.getInstance(MealsRemoteDataSourceImp.getInstance(), MealsLocalDataSourceImp.getInstance(getContext())));
         show=presenter.showData(id,type);
         back.setOnClickListener(v -> {
             Navigation.findNavController(myView).navigateUp();
@@ -177,6 +179,14 @@ public class LocalMealFragment extends Fragment implements LocalMealView{
             });
             savePlannedMeal();
         }
+        else {
+            favFAB.setOnClickListener(v -> {
+                goLogin();
+            });
+            plan.setOnClickListener(v -> {
+                goLogin();
+            });
+        }
     }
 
     private void savePlannedMeal() {
@@ -244,5 +254,21 @@ public class LocalMealFragment extends Fragment implements LocalMealView{
     public void onStop() {
         super.onStop();
         show.dispose();
+    }
+    private void goLogin() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.ask_login);
+        builder.setPositiveButton(R.string.sign_in, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Navigation.findNavController(myView).navigate(R.id.action_mealFragment_to_loginFragment);
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancels the dialog.
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

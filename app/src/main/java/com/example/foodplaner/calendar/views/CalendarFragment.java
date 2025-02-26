@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
@@ -44,6 +46,9 @@ public class CalendarFragment extends Fragment implements com.example.foodplaner
     private PlannedPresenter presenter;
     Disposable btnDisposable,showDisposable;
 
+    private ConstraintLayout content,notAuth;
+    private Button sign;
+
     public CalendarFragment() {
         // Required empty public constructor
     }
@@ -52,6 +57,8 @@ public class CalendarFragment extends Fragment implements com.example.foodplaner
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter=new PlannedPresenterImp(this, RepositoryImp.getInstance(MealsRemoteDataSourceImp.getInstance(), MealsLocalDataSourceImp.getInstance(getContext())));
+
     }
 
     @Override
@@ -67,28 +74,45 @@ public class CalendarFragment extends Fragment implements com.example.foodplaner
         myView=view;
         FirebaseAuth mAuth=FirebaseAuth.getInstance();
         currentUser= mAuth.getCurrentUser();
+        initialize();
         if (currentUser != null) {
-            initialize();
-            calendarView.setOnDateChangeListener((viewer, year, month, dayOfMonth) -> {
-                showDisposable.dispose();
-                showDisposable=presenter.getPlanned(new GregorianCalendar(year, month, dayOfMonth).getTime());
-            });
+            handleUser();
+        }
+        else {
+            handleNotUser();
         }
     }
 
+    private void handleNotUser() {
+        content.setVisibility(View.GONE);
+        notAuth.setVisibility(View.VISIBLE);
+        sign.setOnClickListener(v -> {
+            Navigation.findNavController(myView).navigate(R.id.action_calendarFragment_to_loginFragment);
+        });
+    }
     private void initialize() {
+        content=myView.findViewById(R.id.content);
+        notAuth=myView.findViewById(R.id.not_author);
+        sign=myView.findViewById(R.id.sign_error_btn);
         calendarView=myView.findViewById(R.id.calendarView);
         recyclerView=myView.findViewById(R.id.plan_rec);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+    }
+
+    private void handleUser() {
+        content.setVisibility(View.VISIBLE);
+        notAuth.setVisibility(View.GONE);
         adapter=new MealsAdapter(getContext(),new ArrayList<>(),this);
         recyclerView.setAdapter(adapter);
-        presenter=new PlannedPresenterImp(this, RepositoryImp.getInstance(MealsRemoteDataSourceImp.getInstance(), MealsLocalDataSourceImp.getInstance(getContext())));
         long millisInDay = 60 * 60 * 24 * 1000;
         long currentTime = new Date().getTime();
         long dateOnly = (currentTime / millisInDay) * millisInDay;
         Date clearDate = new Date(dateOnly);
         showDisposable=presenter.getPlanned(clearDate);
-
+        calendarView.setOnDateChangeListener((viewer, year, month, dayOfMonth) -> {
+            showDisposable.dispose();
+            showDisposable=presenter.getPlanned(new GregorianCalendar(year, month, dayOfMonth).getTime());
+        });
     }
 
     @Override
@@ -124,6 +148,7 @@ public class CalendarFragment extends Fragment implements com.example.foodplaner
     @Override
     public void onStop() {
         super.onStop();
-        showDisposable.dispose();
+        if (showDisposable!=null)
+            showDisposable.dispose();
     }
 }

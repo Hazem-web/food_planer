@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "112968214764",
+    "firebase_url": "https://food-planer-78129-default-rtdb.firebaseio.com",
     "project_id": "food-planer-78129",
     "storage_bucket": "food-planer-78129.firebasestorage.app"
   },
@@ -14,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "112968214764-umom7co1p98n83qoqpt9vb1j6pfjdk52.apps.googleusercontent.com",
+          "client_id": "112968214764-vd1r9rq2lp67bjntj23ogp2b5ik3b5ug.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.foodplaner",
-            "certificate_hash": "e8d9115c36d5a781ba08a8a09e7acbc526bc0656"
+            "certificate_hash": "202f41391f73e15b680471c7baf6c62f5f83ec81"
           }
         },
         {

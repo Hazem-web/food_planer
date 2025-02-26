@@ -3,6 +3,7 @@ package com.example.foodplaner.database;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.example.foodplaner.models.Meal;
@@ -17,7 +18,7 @@ import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface PlannedMealsDAO {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     Completable insertPlanned(MealPlanned mealPlanned);
 
     @Delete
@@ -27,5 +28,8 @@ public interface PlannedMealsDAO {
     Flowable<List<MealPlanned>> getPlannedMealsByDay(Date date);
 
     @Query("SELECT * FROM PLANNED_MEALS WHERE id= :id")
-    Single<MealPlanned> getPlannedMealById(String id);
+    Single<List<MealPlanned>> getPlannedMealById(String id);
+
+    @Query("SELECT * FROM PLANNED_MEALS")
+    Single<List<MealPlanned>> getPlannedMeals();
 }

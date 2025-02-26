@@ -25,10 +25,9 @@ public class LocalMealPresenterImp implements LocalMealPresenter {
             output=repository.getPlannedMealById(id).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(mealResponse -> {
-                        view.showData(new Meal(mealResponse));
+                        view.showData(new Meal(mealResponse.get(0)));
                     },throwable -> {
                         throwable.printStackTrace();
-                        view.showError(throwable.getMessage());
                     });
         }
         else {
@@ -38,7 +37,6 @@ public class LocalMealPresenterImp implements LocalMealPresenter {
                         view.showData((mealResponse));
                     },throwable -> {
                         throwable.printStackTrace();
-                        view.showError(throwable.getMessage());
                     });
         }
         return output;
@@ -51,7 +49,6 @@ public class LocalMealPresenterImp implements LocalMealPresenter {
                 .subscribe(() -> {
                     view.showFav();
                 },throwable -> {
-                    view.showError(throwable.getMessage());
                 });
     }
 
@@ -62,7 +59,6 @@ public class LocalMealPresenterImp implements LocalMealPresenter {
                 .subscribe(() -> {
                     view.showNotFav();
                 },throwable -> {
-                    view.showError(throwable.getMessage());
                 });
     }
 
@@ -73,7 +69,6 @@ public class LocalMealPresenterImp implements LocalMealPresenter {
                 .subscribe(() -> {
                     view.addToPlanned();
                 },throwable -> {
-                    view.showError(throwable.getMessage());
                 });
     }
 
@@ -89,7 +84,6 @@ public class LocalMealPresenterImp implements LocalMealPresenter {
                     }
                 },throwable -> {
 
-                    view.showError(throwable.getMessage());
                 });
     }
 }

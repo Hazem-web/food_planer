@@ -40,7 +40,7 @@ public class MealPresenterImp implements MealPresenter{
                 .subscribe(() -> {
                     view.showFav();
                 },throwable -> {
-                    view.showError(throwable.getMessage());
+                    throwable.printStackTrace();
                 });
     }
 
@@ -51,7 +51,7 @@ public class MealPresenterImp implements MealPresenter{
                 .subscribe(() -> {
                     view.showNotFav();
                 },throwable -> {
-                    view.showError(throwable.getMessage());
+                    throwable.printStackTrace();
                 });
     }
 
@@ -62,7 +62,7 @@ public class MealPresenterImp implements MealPresenter{
                 .subscribe(() -> {
                     view.addToPlanned();
                 },throwable -> {
-                    view.showError(throwable.getMessage());
+                    throwable.printStackTrace();
                 });
     }
 
@@ -77,8 +77,7 @@ public class MealPresenterImp implements MealPresenter{
                         view.showNotFav();
                     }
                 },throwable -> {
-
-                    view.showError(throwable.getMessage());
+                    throwable.printStackTrace();
                 });
     }
 }

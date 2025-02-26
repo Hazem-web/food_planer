@@ -38,13 +38,56 @@
             app:layout_constraintTop_toTopOf="@+id/back_btn" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/no_internet"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="0dp"
+            android:layout_height="350dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/animation" />
+
+        <Button
+            android:id="@+id/reload_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/reload"
+            app:layout_constraintEnd_toEndOf="@+id/error_txt"
+            app:layout_constraintStart_toStartOf="@+id/error_txt"
+            app:layout_constraintTop_toBottomOf="@id/error_txt" />
+
+        <TextView
+            android:id="@+id/error_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/no_intrenet"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="@+id/animationView"
+            app:layout_constraintStart_toStartOf="@+id/animationView"
+            app:layout_constraintTop_toBottomOf="@id/animationView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_res_rec"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@id/no_internet" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,96 +2,146 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".search.views.SearchFragment">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/search_text"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/no_internet"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:hint="@string/search_meal"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/rounded_search"
-        app:startIconDrawable="@drawable/search"
-        app:startIconTint="@color/black">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/search_input_txt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/search"
-            android:inputType="text|textEmailAddress" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/animationView"
+            android:layout_width="0dp"
+            android:layout_height="350dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/animation" />
 
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/chipGroup"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_text">
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/cat_chip"
+        <Button
+            android:id="@+id/reload_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/categories"
-            android:textColor="@color/orange"
-            app:chipCornerRadius="10dp"
-            app:chipStrokeColor="@color/orange" />
+            android:layout_marginTop="8dp"
+            android:text="@string/reload"
+            app:layout_constraintEnd_toEndOf="@+id/error_txt"
+            app:layout_constraintStart_toStartOf="@+id/error_txt"
+            app:layout_constraintTop_toBottomOf="@id/error_txt" />
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/country_chip"
+        <TextView
+            android:id="@+id/error_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/countries"
-            android:textColor="@color/orange"
-            app:chipCornerRadius="10dp"
-            app:chipStrokeColor="@color/orange" />
+            android:layout_marginTop="8dp"
+            android:text="@string/no_intrenet"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="@+id/animationView"
+            app:layout_constraintStart_toStartOf="@+id/animationView"
+            app:layout_constraintTop_toBottomOf="@id/animationView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/ingredients_chip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ingredients"
-            android:textColor="@color/orange"
-            app:chipCornerRadius="10dp"
-            app:chipStrokeColor="@color/orange" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/meal_chip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/meal"
-            android:textColor="@color/orange"
-            app:chipCornerRadius="10dp"
-            app:chipStrokeColor="@color/orange" />
-
-    </com.google.android.material.chip.ChipGroup>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_result_rec"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/no_internet"
+        tools:context=".search.views.SearchFragment">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/search_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/search_meal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/rounded_search"
+            app:startIconDrawable="@drawable/search"
+            app:startIconTint="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/search_input_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/search"
+                android:inputType="text|textEmailAddress" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_text">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/cat_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/categories"
+                android:textColor="@color/orange"
+                app:chipCornerRadius="10dp"
+                app:chipStrokeColor="@color/orange" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/country_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/countries"
+                android:textColor="@color/orange"
+                app:chipCornerRadius="10dp"
+                app:chipStrokeColor="@color/orange" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/ingredients_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ingredients"
+                android:textColor="@color/orange"
+                app:chipCornerRadius="10dp"
+                app:chipStrokeColor="@color/orange" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/meal_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/meal"
+                android:textColor="@color/orange"
+                app:chipCornerRadius="10dp"
+                app:chipStrokeColor="@color/orange" />
+
+        </com.google.android.material.chip.ChipGroup>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_result_rec"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chipGroup" />
 
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

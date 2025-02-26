@@ -20,9 +20,8 @@ public class MealsPresenterImp implements MealsPresenter{
     }
     @Override
     public Disposable addToFav(Meal meal, int position) {
-        return repository.getSelectedMeal(meal.getId()).subscribeOn(Schedulers.io())
+        return repository.getSelectedMeal(meal.getId()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(mealResponse -> {
-                    Log.i("nonono", "letsgo");
                     if (mealResponse.getMeals() != null) {
                         repository.insertFavMeal(mealResponse.getMeals().get(0)).subscribeOn(Schedulers.io())
                                .observeOn(AndroidSchedulers.mainThread())
@@ -35,6 +34,7 @@ public class MealsPresenterImp implements MealsPresenter{
                 },throwable -> {
                     throwable.printStackTrace();
                     view.showError(throwable.getMessage());
+
                 });
     }
 

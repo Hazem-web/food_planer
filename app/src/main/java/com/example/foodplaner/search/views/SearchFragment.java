@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.foodplaner.R;
 import com.example.foodplaner.database.MealsLocalDataSourceImp;
@@ -40,9 +42,11 @@ public class SearchFragment extends Fragment implements SearchView,ViewClickHand
 
     private Chip mealChip,categoryChip,countryChip,ingChip;
     private RecyclerView recyclerView;
+    private ConstraintLayout content,noInternet;
+    private Button reloadBtn;
     private List<Displayable> displayables=new ArrayList<>();
     private TextInputLayout searchText;
-    private String type="Meal";
+    private String type="Category";
     private View myView;
     private Disposable textChangeDisposable,dataDisposable;
     private SearchPresenter presenter;
@@ -55,6 +59,8 @@ public class SearchFragment extends Fragment implements SearchView,ViewClickHand
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter=new SearchPresenterImp(this, RepositoryImp.getInstance(MealsRemoteDataSourceImp.getInstance(), MealsLocalDataSourceImp.getInstance(getContext())));
+
     }
 
     @Override
@@ -71,6 +77,7 @@ public class SearchFragment extends Fragment implements SearchView,ViewClickHand
         initialize();
         searchHandle();
         filterChipHandle();
+        chipHandle();
     }
 
     private void filterChipHandle() {
@@ -147,6 +154,9 @@ public class SearchFragment extends Fragment implements SearchView,ViewClickHand
     private void initialize() {
         mealChip=myView.findViewById(R.id.meal_chip);
         ingChip=myView.findViewById(R.id.ingredients_chip);
+        content=myView.findViewById(R.id.content);
+        noInternet=myView.findViewById(R.id.no_internet);
+        reloadBtn=myView.findViewById(R.id.reload_btn);
         categoryChip=myView.findViewById(R.id.cat_chip);
         countryChip=myView.findViewById(R.id.country_chip);
         searchText=myView.findViewById(R.id.search_text);
@@ -154,7 +164,12 @@ public class SearchFragment extends Fragment implements SearchView,ViewClickHand
         adapter=new SearchAdapter(displayables,getContext(),this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
-        presenter=new SearchPresenterImp(this, RepositoryImp.getInstance(MealsRemoteDataSourceImp.getInstance(), MealsLocalDataSourceImp.getInstance(getContext())));
+        reloadBtn.setOnClickListener(v -> {
+            content.setVisibility(View.VISIBLE);
+            noInternet.setVisibility(View.GONE);
+            type="Category";
+            chipHandle();
+        });
     }
 
     @Override
@@ -175,6 +190,8 @@ public class SearchFragment extends Fragment implements SearchView,ViewClickHand
 
     @Override
     public void showError(String error) {
+        content.setVisibility(View.GONE);
+        noInternet.setVisibility(View.VISIBLE);
     }
 
     private void setData(List<Displayable> data){

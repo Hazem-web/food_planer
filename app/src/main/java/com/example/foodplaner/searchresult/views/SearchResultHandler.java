@@ -4,7 +4,7 @@ public interface SearchResultHandler {
 
     void viewRecipe(String id);
 
-    void notAuthorizedUser(String msg);
+    void notAuthorizedUser();
 
     void handleError(String error);
 }

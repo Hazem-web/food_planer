@@ -112,8 +112,13 @@ public class RepositoryImp implements Repository{
     }
 
     @Override
-    public Single<MealPlanned> getPlannedMealById(String id) {
+    public Single<List<MealPlanned>> getPlannedMealById(String id) {
         return localDataSource.getPlannedMealById(id);
+    }
+
+    @Override
+    public Single<List<MealPlanned>> getPlannedMeals() {
+        return localDataSource.getPlannedMeals();
     }
 
     @Override

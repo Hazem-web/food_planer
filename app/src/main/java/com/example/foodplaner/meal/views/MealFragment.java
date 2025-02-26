@@ -263,6 +263,7 @@ public class MealFragment extends Fragment implements MealView{
         builder.setMessage(R.string.no_intrenet);
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
             }
         });
         builder.setOnDismissListener(dialog -> {

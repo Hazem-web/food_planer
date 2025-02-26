@@ -96,12 +96,12 @@ public class CalendarFragment extends Fragment implements com.example.foodplaner
         sign=myView.findViewById(R.id.sign_error_btn);
         calendarView=myView.findViewById(R.id.calendarView);
         recyclerView=myView.findViewById(R.id.plan_rec);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
     }
 
     private void handleUser() {
         content.setVisibility(View.VISIBLE);
         notAuth.setVisibility(View.GONE);
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
         adapter=new MealsAdapter(getContext(),new ArrayList<>(),this);
         recyclerView.setAdapter(adapter);
         long millisInDay = 60 * 60 * 24 * 1000;

@@ -1,5 +1,7 @@
 package com.example.foodplaner.calendar.presenter;
 
+import android.util.Log;
+
 import com.example.foodplaner.calendar.views.CalendarView;
 
 import com.example.foodplaner.models.MealPlanned;
@@ -24,6 +26,7 @@ public class PlannedPresenterImp implements PlannedPresenter{
     public Disposable getPlanned(Date date) {
         return repository.getPlannedMealsByDate(date).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(mealPlanneds -> {
+                    Log.i("TAG", "getPlanned: "+mealPlanneds.size());
                     view.showData(mealPlanneds);
                 },throwable -> {
                     throwable.printStackTrace();

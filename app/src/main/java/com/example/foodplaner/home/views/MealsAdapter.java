@@ -67,12 +67,10 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
 
     private void checkUser(@NonNull ViewHolder holder, int position, Meal meal) {
         if (currentUser != null) {
-            if (showDisposable[position]==null) {
+
                 showDisposable[position] = presenter.showFav(meal.getId(), position);
-            }
-            else {
-                showDisposable[position].dispose();
-            }
+
+
             checkFav(holder, position, meal);
         }
         else {
@@ -118,20 +116,23 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsAdapter.ViewHolder> 
 
     @Override
     public void showFav(int position) {
-        dispose();
+        dispose(position);
         meals.get(position).setFav(true);
         notifyItemChanged(position);
     }
 
-    private void dispose() {
+    private void dispose(int position) {
         if (btnDisposable != null) {
             btnDisposable.dispose();
+        }
+        if (showDisposable[position] != null) {
+            showDisposable[position].dispose();
         }
     }
 
     @Override
     public void showNotFav(int position) {
-        dispose();
+        dispose(position);
         meals.get(position).setFav(false);
         notifyItemChanged(position);
     }
